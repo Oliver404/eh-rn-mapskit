@@ -1,0 +1,11 @@
+{
+  "expo": {
+    "name": "ehmaps",
+    "slug": "ehmaps",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  },
+  "name": "ehmaps"
+}
