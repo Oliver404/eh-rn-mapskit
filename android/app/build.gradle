@@ -1,4 +1,5 @@
 apply plugin: "com.android.application"
+apply plugin: "com.huawei.agconnect"
 
 import com.android.build.OutputFile
 
@@ -148,10 +149,10 @@ android {
     }
     signingConfigs {
         debug {
-            storeFile file('debug.keystore')
-            storePassword 'android'
-            keyAlias 'androiddebugkey'
-            keyPassword 'android'
+            storeFile file('react-native-examples.jks')
+            storePassword 'Oliver404'
+            keyAlias 'example'
+            keyPassword 'Oliver404'
         }
     }
     buildTypes {
@@ -231,6 +232,8 @@ dependencies {
     } else {
         implementation jscFlavor
     }
+
+    implementation project(':react-native-hms-map')
 }
 
 // Run this once to be able to run the application with BUCK

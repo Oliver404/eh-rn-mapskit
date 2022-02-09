@@ -7,3 +7,5 @@ apply from: new File(["node", "--print", "require.resolve('@react-native-communi
 applyNativeModulesSettingsGradle(settings)
 
 include ':app'
+include ':react-native-hms-map'
+project(':react-native-hms-map').projectDir = new File(rootProject.projectDir, '../node_modules/@hmscore/react-native-hms-map/android')
