@@ -19,9 +19,7 @@ const getLayerOptionsInfo = () =>
     markerView &&
     mapView
         .getLayerOptionsInfo(markerView)
-        .then((a) => {
-            logMessage(`${a.position.latitude}, ${a.position.longitude}`)
-        })
+        .then((a) => logMessage(a))
         .catch((e) => logMessage(a));
 
 const getLayerInfo = () =>
@@ -32,22 +30,24 @@ const getLayerInfo = () =>
         .then((a) => logMessage(`${a.position.latitude}, ${a.position.longitude}`))
         .catch((a) => logMessage(a));
 
+const onMoveCamera = (e) => {
+    mapView
+        .getCoordinateFromPoint({
+            x: (Dimensions.get('screen').width * PixelRatio.get()) / 2,
+            y: (Dimensions.get('screen').height * PixelRatio.get()) / 2,
+        })
+        .then((a) => {
+            logMessage(`${a.latitude.toFixed(3)}, ${a.longitude.toFixed(3)}`)
+        })
+        .catch((a) => console.log(a))
+}
+
 export default function App() {
     return (
         <View style={styles.container}>
             <HMSMap
                 ref={(e) => {mapView = e}}
-                onCameraIdle={(e) =>
-                    mapView
-                        .getCoordinateFromPoint({
-                            x: (Dimensions.get('screen').width * PixelRatio.get()) / 2,
-                            y: (Dimensions.get('screen').height * PixelRatio.get()) / 2,
-                        })
-                        .then((a) => {
-                            logMessage(`${a.latitude.toFixed(3)}, ${a.longitude.toFixed(3)}`)
-                        })
-                        .catch((a) => console.log(a))
-                }
+                onCameraIdle={onMoveCamera}
                 camera={{
                     target: {
                         latitude: position.latitude,
@@ -66,62 +66,35 @@ export default function App() {
                 zoomGesturesEnabled={true}
                 gestureScaleByMapCenter={false}
                 scrollGesturesEnabledDuringRotateOrZoom={true}>
-                    <HMSMarker // Simple example
+                    <HMSMarker
                         coordinate={{latitude: 19.412, longitude: -98.993}}
                         title="Hello Huawei Map"
                         snippet="This is a snippet!"
                         draggable={true}
                         clusterable={true}
-                        onClick={(e) => console.log("Marker onClick", e.nativeEvent)}
                         onDragEnd={getLayerInfo}
-                        ref={(e) => {
-                            markerView = e;
-                        }}
-                    />
+                        ref={ (e) => {markerView = e} }/>
             </HMSMap>
 
-            <View
-                style={{
-                    flex: 1,
-                    position: 'absolute',
-                    zIndex: 99,
-                    alignItems: 'center',
-                }}>
-                <View style={{
-                    height: 20,
-                    width: 20,
-                    backgroundColor: '#ff0000',
-                    borderTopStartRadius: 10,
-                    borderTopEndRadius: 10,
-                    borderBottomStartRadius: 10,
-                    transform: [{ rotate: "45deg" }]
-                }}></View>
+            {/*<View*/}
+            {/*    style={{*/}
+            {/*        flex: 1,*/}
+            {/*        position: 'absolute',*/}
+            {/*        zIndex: 99,*/}
+            {/*        alignItems: 'center',*/}
+            {/*    }}>*/}
+            {/*    <View */}
+            {/*        style={{*/}
+            {/*            height: 20,*/}
+            {/*            width: 20,*/}
+            {/*            backgroundColor: '#ff0000',*/}
+            {/*            borderTopStartRadius: 10,*/}
+            {/*            borderTopEndRadius: 10,*/}
+            {/*            borderBottomStartRadius: 10,*/}
+            {/*            transform: [{ rotate: "45deg" }]*/}
+            {/*        }}/>*/}
+            {/*</View>*/}
 
-            </View>
-
-            {/*<HMSMap*/}
-            {/*    mapType={MapTypes.NORMAL}*/}
-            {/*    style={{height: 400, width: 400}}*/}
-            {/*    camera={{target: {latitude: 41, longitude: 29}, zoom: 11}}*/}
-            {/*    ref={(e) => {*/}
-            {/*        mapview = e;*/}
-            {/*    }}*/}
-            {/*    onCameraMove={(e) => console.log("onCameraMove")}>*/}
-
-            {/*    <HMSMarker // Simple example*/}
-            {/*        coordinate={{latitude: 41, longitude: 29}}*/}
-            {/*        title="Hello Huawei Map"*/}
-            {/*        snippet="This is a snippet!"*/}
-            {/*        draggable={true}*/}
-            {/*        clusterable={true}*/}
-            {/*        onClick={(e) => console.log("Marker onClick", e.nativeEvent)}*/}
-            {/*        onDragEnd={(e) => console.log("onDragEnd: marker:", markerView)}*/}
-            {/*        ref={(e) => {*/}
-            {/*            markerView = e;*/}
-            {/*        }}*/}
-            {/*    />*/}
-
-            {/*</HMSMap>*/}
             <StatusBar style="auto"/>
         </View>
     );
